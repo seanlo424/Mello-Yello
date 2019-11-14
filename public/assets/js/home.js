@@ -65,6 +65,10 @@ function handleLoginResponse(data, status, jqXHR) {
 	}
 }
 
+function handleLoginResponse(data, status, jqXHR) {
+	console.log(status, data, jqXHR);
+}
+
 function authenticateUser(email, password) {
 	$.ajax({
 		url: '/' + authSetting,
