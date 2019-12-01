@@ -7,6 +7,14 @@ const $message = $('#message');
 
 let authSetting = 'login';
 
+sendUserToBoards();
+
+function sendUserToBoards() {
+	if (localStorage.getItem('user')) {
+		location.replace('/boards');
+	}
+}
+
 function setAuth(setting) {
 	authSetting = setting;
 
@@ -43,14 +51,14 @@ function displayMessage(message, type) {
 }
 
 function handleSignupResponse(status) {
-	if (status === 'success') {
-		displayMessage('Registered successfully! You may now sign in.', 'sucess');
-		setAuth('login');
-	} else {
-		displayMessage(
-			'Something went wrong. A user with this account may already exist.', 'danger'
-			);
-	}
+  if (status === 'success') {
+    displayMessage('Registered successfully! You may now sign in.', 'success');
+  } else {
+    displayMessage(
+      'Something went wrong. A user with this account may already exist.',
+      'danger'
+    );
+  }
 }
 
 function handleLoginResponse(data, status, jqXHR) {
@@ -60,13 +68,10 @@ function handleLoginResponse(data, status, jqXHR) {
 
 		localStorage.setItem('authorization', jwt);
 		localStorage.setItem('user', user);
+		sendUserToBoards()
 	} else {
 		displayMessage('Invalid email or password.', 'danger');
 	}
-}
-
-function handleLoginResponse(data, status, jqXHR) {
-	console.log(status, data, jqXHR);
 }
 
 function authenticateUser(email, password) {
